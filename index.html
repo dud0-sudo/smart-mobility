@@ -47,9 +47,10 @@
 
         .game-header h1 {
             color: #f39c12;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 4px;
             letter-spacing: -0.5px;
+            line-height: 1.4;
         }
 
         .game-header p {
@@ -286,24 +287,6 @@
             cursor: not-allowed;
         }
 
-        .check-in-btn {
-            background-color: #2ecc71;
-            color: #121212;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            font-size: 0.95rem;
-            margin-top: 10px;
-            transition: background-color 0.2s;
-        }
-        .check-in-btn.checked {
-            background-color: #27ae60;
-            color: #fff;
-        }
-
         .reason-box {
             background-color: #1a2327;
             border: 1px solid #3498db;
@@ -453,8 +436,8 @@
 
     <div class="game-container">
         <div class="game-header">
-            <h1 id="zone-title">🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대</h1>
-            <p id="zone-subtitle">[시작 화면] 출석 체크 및 대원 정보 입력</p>
+            <h1 id="zone-title">🚀 [스마트 시티 프로젝트]<br>4차 산업혁명 모빌리티 탐사대</h1>
+            <p id="zone-subtitle">[시작 화면] 대원 정보 입력</p>
         </div>
 
         <div class="game-content" id="game-content-area"></div>
@@ -546,16 +529,6 @@
         let studentInfo = { className: "A반", studentName: "" };
         let currentScoreData = null;
 
-        function getVisitorCount() {
-            let count = localStorage.getItem("mobility_visitor_count");
-            return count ? parseInt(count) : 0;
-        }
-
-        function addVisitorCount() {
-            let count = getVisitorCount();
-            localStorage.setItem("mobility_visitor_count", count + 1);
-        }
-
         function getclassRecords() {
             let data = localStorage.getItem("mobility_class_records");
             if (!data) return { "A반": [], "B반": [], "C반": [], "D반": [] };
@@ -566,13 +539,10 @@
             localStorage.setItem("mobility_class_records", JSON.stringify(records));
         }
 
-        // 비밀 단축키 감지 기능 (Ctrl + Shift + Backspace 누르면 초기화 팝업)
         window.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.shiftKey && e.key === 'Backspace') {
-                if (confirm("🔒 [교사 전용 비밀 기능] 모든 접속 기록과 리더보드를 초기화하시겠습니까?")) {
-                    localStorage.removeItem("mobility_visitor_count");
+                if (confirm("🔒 [교사 전용 비밀 기능] 저장된 기록을 초기화하시겠습니까?")) {
                     localStorage.removeItem("mobility_class_records");
-                    localStorage.removeItem("mobility_checked_in");
                     alert("초기화되었습니다!");
                     location.reload();
                 }
@@ -585,27 +555,15 @@
             const mainActionBtn = document.getElementById("main-action-btn");
 
             if (currentStep === -3) {
-                document.getElementById("zone-title").innerText = "🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대";
-                document.getElementById("zone-subtitle").innerText = "[시작 화면] 출석 체크 및 대원 정보 입력";
-                statusText.innerText = "1단계: 입장";
+                document.getElementById("zone-title").innerHTML = "🚀 [스마트 시티 프로젝트]<br>4차 산업혁명 모빌리티 탐사대";
+                document.getElementById("zone-subtitle").innerText = "[시작 화면] 대원 정보 입력";
+                statusText.innerText = "1단계: 정보 입력";
                 mainActionBtn.innerText = "탐사 미션 경로 확인하기";
                 mainActionBtn.disabled = false;
 
-                let visitorCount = getVisitorCount();
-                let isCheckedIn = localStorage.getItem("mobility_checked_in") === "true";
-
                 area.innerHTML = `
-                    <div style="background-color: #282421; border: 1px solid #f39c12; border-radius: 8px; padding: 14px; margin-bottom: 12px; text-align: center;">
-                        <span style="font-size: 0.9rem; color: #f39c12; font-weight: bold;">
-                            👥 현재 웹페이지 접속(입장) 인원: <span style="font-size: 1.15rem; color: #fff;" id="visitor-count-display">${visitorCount}명</span>
-                        </span>
-                        <button class="check-in-btn ${isCheckedIn ? 'checked' : ''}" id="check-in-btn" onclick="doCheckIn()">
-                            ${isCheckedIn ? '✅ 출석체크 완료됨!' : '✋ [클릭] 저 입장했어요! (출석 체크)'}
-                        </button>
-                    </div>
-
-                    <div style="background-color: #282421; border: 1px solid #d48331; border-radius: 8px; padding: 16px;">
-                        <div class="briefing-title" style="margin-bottom: 12px;">📝 탐사대원 정보를 입력해 주세요</div>
+                    <div style="background-color: #282421; border: 1px solid #d48331; border-radius: 8px; padding: 20px;">
+                        <div class="briefing-title" style="margin-bottom: 14px; font-size: 1.05rem;">📝 탐사대원 정보를 입력해 주세요</div>
                         <div class="input-group">
                             <label>🏫 나의 소속 반</label>
                             <select id="input-class">
@@ -634,7 +592,7 @@
                         <div class="route-title">📍 탐사 미션 경로: 집 ➔ 고현 ➔ 사상 ➔ 부산역 ➔ 서울역</div>
                         <div class="route-desc">
                             거제 집에서 출발해 서울역까지 안전하고 효율적인 경로를 구성하세요!<br><br>
-                            <strong>🏆 우승 조건:</strong> <strong>총 이동 시간</strong>과 <strong>총 비용</strong>(보너스/패널티 반영 합산 점수)이 <strong>가장 낮은</strong> 학생이 각 반별 1위로 우승합니다!
+                            <strong>🏆 우승 조건:</strong> <strong>총 이동 시간</strong>과 <strong>총 비용</strong>(보너스/패널티 반영 합산 점수)이 <strong>가장 낮은</strong> 학생이 1위로 우승합니다!
                         </div>
                     </div>
 
@@ -724,7 +682,7 @@
                 document.getElementById("zone-title").innerText = `🧾 [${studentInfo.className}] 나의 탐사 영수증`;
                 document.getElementById("zone-subtitle").innerText = `${studentInfo.studentName}님의 최종 이동 경로 및 비용 합산 리포트`;
                 statusText.innerText = "결과 확인 (1/2)";
-                mainActionBtn.innerText = "반별 실시간 리더보드 확인하기";
+                mainActionBtn.innerText = "나의 점수 결과 확인하기";
                 mainActionBtn.disabled = false;
 
                 let totalTime = totalScoreSummary.reduce((acc, cur) => acc + cur.timeNum, 0);
@@ -774,56 +732,27 @@
                 `;
 
             } else if (currentStep === 5) {
-                document.getElementById("zone-title").innerText = `🏆 [${studentInfo.className}] 실시간 반별 리더보드`;
-                document.getElementById("zone-subtitle").innerText = `우리 ${studentInfo.className} 최고 탐사대원 1~3위 및 나의 순위 확인`;
-                statusText.innerText = "순위 측정 (2/2)";
+                document.getElementById("zone-title").innerText = `🏆 [${studentInfo.className}] 탐사 완료 리포트`;
+                document.getElementById("zone-subtitle").innerText = `${studentInfo.studentName} 대원의 최종 결과`;
+                statusText.innerText = "결과 제출 (2/2)";
                 mainActionBtn.innerText = "처음부터 다시 시작하기";
                 mainActionBtn.disabled = false;
 
-                let records = getclassRecords();
-                let exists = records[studentInfo.className].some(r => r.name === currentScoreData.name && r.score === currentScoreData.score && r.time === currentScoreData.time);
-                if (!exists) {
-                    records[studentInfo.className].push(currentScoreData);
-                    records[studentInfo.className].sort((a, b) => a.score - b.score);
-                    saveclassRecords(records);
-                }
-
-                let classList = records[studentInfo.className];
-                let top3 = classList.slice(0, 3);
-
-                let myRankIndex = classList.findIndex(r => r.name === currentScoreData.name && r.score === currentScoreData.score);
-                let myRank = myRankIndex !== -1 ? myRankIndex + 1 : "-";
-
                 area.innerHTML = `
-                    <div class="briefing-box">
-                        <div class="briefing-title">🥇 [${studentInfo.className}] 명예의 전당 (Top 3)</div>
-                        <div class="podium-top3">
-                            ${top3.map((rec, idx) => `
-                                <div class="podium-card">
-                                    <div><strong>${idx + 1}위:</strong> ${rec.name}</div>
-                                    <div style="color: #f39c12;">점수: ${rec.score}점 (${rec.time}분 / ${rec.cost.toLocaleString()}원)</div>
-                                </div>
-                            `).join('')}
-                            ${top3.length === 0 ? '<p style="color:#aaa; font-size:0.8rem;">기록이 없습니다.</p>' : ''}
-                        </div>
+                    <div class="briefing-box" style="text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🎉</div>
+                        <div class="briefing-title" style="font-size: 1.15rem; margin-bottom: 8px;">탐사 미션을 성공적으로 마쳤습니다!</div>
+                        <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px;">
+                            ${studentInfo.studentName} 대원의 최종 종합 스코어는 <strong style="color: #f1c40f;">${currentScoreData.score}점</strong>입니다.<br>
+                            (총 소요시간: ${currentScoreData.time}분 / 총 비용: ${currentScoreData.cost.toLocaleString()}원)
+                        </p>
 
                         <div class="my-rank-banner">
-                            🎯 ${studentInfo.studentName}님의 현재 순위: <span style="color: #fff; font-size: 1.1rem;">${myRank}등</span> (종합 스코어 ${currentScoreData.score}점)
+                            📱 화면을 캡처하거나 선생님께 이 화면을 보여드려 결과를 확인받으세요!
                         </div>
                     </div>
                 `;
             }
-        }
-
-        function doCheckIn() {
-            if (localStorage.getItem("mobility_checked_in") === "true") return;
-            addVisitorCount();
-            localStorage.setItem("mobility_checked_in", "true");
-            
-            document.getElementById("visitor-count-display").innerText = getVisitorCount() + "명";
-            const btn = document.getElementById("check-in-btn");
-            btn.className = "check-in-btn checked";
-            btn.innerText = "✅ 출석체크 완료됨!";
         }
 
         function openModal(item) {
@@ -877,7 +806,6 @@
                 currentStep = -3;
                 totalScoreSummary = [];
                 currentScoreData = null;
-                localStorage.removeItem("mobility_checked_in");
             }
             renderCurrentScreen();
         }
