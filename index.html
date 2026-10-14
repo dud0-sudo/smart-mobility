@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>[스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대</title>
     <style>
         * {
@@ -10,6 +10,10 @@
             margin: 0;
             padding: 0;
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -19,16 +23,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 12px;
         }
 
         .game-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 480px;
             background-color: #1e1e1e;
             border: 2px solid #d48331;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -37,79 +41,80 @@
         .game-header {
             background-color: #262220;
             border-bottom: 2px solid #d48331;
-            padding: 20px;
+            padding: 18px 16px;
             text-align: center;
         }
 
         .game-header h1 {
             color: #f39c12;
-            font-size: 1.4rem;
-            margin-bottom: 5px;
+            font-size: 1.25rem;
+            margin-bottom: 4px;
             letter-spacing: -0.5px;
         }
 
         .game-header p {
             color: #b0b0b0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         .game-content {
-            padding: 24px;
+            padding: 16px;
             overflow-y: auto;
-            max-height: 540px;
+            max-height: 62vh;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .route-banner {
             background: linear-gradient(135deg, #2c241d, #1a2327);
             border: 1px solid #f39c12;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 16px;
             text-align: center;
         }
 
         .route-title {
             color: #f39c12;
             font-weight: bold;
-            font-size: 1.15rem;
-            margin-bottom: 10px;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
         }
 
         .route-desc {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #d0d0d0;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .briefing-box {
             background-color: #282421;
             border: 1px solid #d48331;
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            line-height: 1.6;
-            font-size: 0.95rem;
+            padding: 14px;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         .briefing-title {
             color: #f39c12;
             font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 1.05rem;
+            margin-bottom: 6px;
+            font-size: 1rem;
         }
 
         .encyclopedia-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 14px;
-            margin-bottom: 10px;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
 
         .ency-card {
             background-color: #262220;
             border: 1px solid #444;
             border-radius: 8px;
-            padding: 14px;
+            padding: 12px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
@@ -120,12 +125,11 @@
         .ency-card:hover {
             border-color: #f39c12;
             background-color: #332b25;
-            transform: translateY(-2px);
         }
 
         .ency-icon-box {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             background-color: #121212;
             border: 1px solid #f39c12;
             border-radius: 6px;
@@ -137,24 +141,25 @@
 
         .ency-card h3 {
             color: #f39c12;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
         }
 
         .ency-card p {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #aaa;
         }
 
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             display: none;
+            padding: 16px;
         }
 
         .modal-overlay.active {
@@ -165,37 +170,37 @@
             background-color: #1e1e1e;
             border: 2px solid #3498db;
             border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.8);
         }
 
         .modal-header-wrap {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .modal-title {
             color: #3498db;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: bold;
         }
 
         .modal-body {
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
             color: #ddd;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .modal-close-btn {
             background-color: #3498db;
             color: #121212;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
@@ -205,38 +210,31 @@
         .choices-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
         }
 
         .choice-btn {
             background-color: #2d2d2d;
             border: 1px solid #444;
             color: #fff;
-            padding: 12px 16px;
+            padding: 12px;
             border-radius: 8px;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 14px;
-        }
-
-        .choice-btn:hover {
-            background-color: #38322c;
-            border-color: #f39c12;
+            gap: 12px;
         }
 
         .choice-btn.selected {
             background-color: #4a3820;
             border-color: #f39c12;
-            box-shadow: inset 0 0 8px rgba(243, 156, 18, 0.3);
         }
 
         .choice-btn .icon-wrap {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background-color: #1c1c1c;
             border: 1px solid #d48331;
             border-radius: 6px;
@@ -251,7 +249,7 @@
         }
 
         .choice-info {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #aaa;
             margin-top: 2px;
         }
@@ -261,12 +259,12 @@
             justify-content: space-between;
             align-items: center;
             border-top: 2px solid #d48331;
-            padding: 16px 24px;
+            padding: 14px 16px;
             background-color: #262220;
         }
 
         .status-text {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #888;
         }
 
@@ -274,15 +272,12 @@
             background-color: #d48331;
             color: #121212;
             border: none;
-            padding: 10px 24px;
+            padding: 10px 18px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.9rem;
             transition: background-color 0.2s;
-        }
-
-        .action-btn:hover {
-            background-color: #f39c12;
         }
 
         .action-btn:disabled {
@@ -291,13 +286,30 @@
             cursor: not-allowed;
         }
 
+        .check-in-btn {
+            background-color: #2ecc71;
+            color: #121212;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .check-in-btn.checked {
+            background-color: #27ae60;
+            color: #fff;
+        }
+
         .reason-box {
             background-color: #1a2327;
             border: 1px solid #3498db;
             border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            font-size: 0.95rem;
+            padding: 14px;
+            font-size: 0.85rem;
             display: none;
         }
 
@@ -308,42 +320,103 @@
         .reason-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
-        .receipt {
-            background-color: #252320;
-            border: 1px dashed #f39c12;
-            padding: 16px;
-            border-radius: 6px;
-            font-family: monospace;
-            margin-bottom: 16px;
+        .receipt-card {
+            background-color: #262220;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 12px;
         }
-        .receipt-item {
+
+        .receipt-card-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            align-items: center;
+            margin-bottom: 4px;
         }
+
+        .card-zone-tag {
+            font-size: 0.75rem;
+            color: #b0b0b0;
+            font-weight: bold;
+        }
+
+        .card-transport-name {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .card-time-cost-wrap {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        .card-detailed-desc {
+            font-size: 0.75rem;
+            color: #aaaaaa;
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px dashed #444;
+        }
+
+        .receipt-summary-box {
+            background-color: #282421;
+            border: 2px dashed #f39c12;
+            border-radius: 8px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .summary-label {
+            font-size: 0.75rem;
+            color: #b0b0b0;
+        }
+
+        .summary-value {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        .summary-score {
+            grid-column: 1 / -1;
+            background-color: #1a1714;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         .input-group label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
             color: #f39c12;
             font-weight: bold;
         }
         .input-group select, .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background-color: #2d2d2d;
             border: 1px solid #444;
             color: #fff;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         .text-penalty { color: #e74c3c; font-weight: bold; }
         .text-bonus { color: #3498db; font-weight: bold; }
@@ -362,6 +435,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9rem;
         }
         .my-rank-banner {
             background-color: #2b241d;
@@ -369,7 +443,7 @@
             border-radius: 8px;
             padding: 14px;
             text-align: center;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: bold;
             color: #f39c12;
         }
@@ -380,7 +454,7 @@
     <div class="game-container">
         <div class="game-header">
             <h1 id="zone-title">🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대</h1>
-            <p id="zone-subtitle">[시작 화면] 소속 반 및 이름 입력</p>
+            <p id="zone-subtitle">[시작 화면] 출석 체크 및 대원 정보 입력</p>
         </div>
 
         <div class="game-content" id="game-content-area"></div>
@@ -394,7 +468,7 @@
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-box">
             <div class="modal-header-wrap">
-                <div id="modal-icon-container" style="width: 44px; height: 44px; background:#121212; border:1px solid #3498db; border-radius:6px; display:flex; align-items:center; justify-content:center;"></div>
+                <div id="modal-icon-container" style="width: 36px; height: 36px; background:#121212; border:1px solid #3498db; border-radius:6px; display:flex; align-items:center; justify-content:center;"></div>
                 <div class="modal-title" id="modal-card-title">교통수단 명칭</div>
             </div>
             <div class="modal-body" id="modal-card-desc">상세 설명이 여기에 들어갑니다.</div>
@@ -404,80 +478,26 @@
 
     <script>
         const pixelIcons = {
-            bus: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M3 2H13V12H3V2Z" fill="#F39C12"/><path d="M4 4H7V7H4V4ZM9 4H12V7H9V4Z" fill="#121212"/><path d="M4 12H6V14H4V12ZM10 12H12V14H10V12Z" fill="#E0E0E0"/><path d="M6 9H10V10H6V9Z" fill="#121212"/></svg>`,
-            drt: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M2 4H14V11H2V4Z" fill="#2ECC71"/><path d="M3 5H6V8H3V5ZM8 5H11V8H8V5Z" fill="#121212"/><path d="M3 11H5V13H3V11ZM11 11H13V13H11V11Z" fill="#E0E0E0"/><circle cx="13" cy="3" r="2" fill="#E74C3C"/></svg>`,
-            uam: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M5 7H11V10H5V7Z" fill="#3498DB"/><path d="M2 5H6V6H2V5ZM10 5H14V6H10V5Z" fill="#E0E0E0"/><path d="M3 4H5V5H3V4ZM11 4H13V5H11V4Z" fill="#F1C40F"/><path d="M7 10H9V12H7V10Z" fill="#E0E0E0"/></svg>`,
-            subway: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M3 3H13V12H3V3Z" fill="#9B59B6"/><path d="M4 5H12V8H4V5Z" fill="#121212"/><circle cx="5.5" cy="10.5" r="0.8" fill="#F1C40F"/><circle cx="10.5" cy="10.5" r="0.8" fill="#F1C40F"/><path d="M4 12L2 14M12 12L14 14" stroke="#E0E0E0" stroke-width="1.5"/></svg>`,
-            shuttle: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M3 4H13V11H3V4Z" fill="#1ABC9C"/><path d="M4 5H7V7H4V5ZM9 5H12V7H9V5Z" fill="#121212"/><circle cx="8" cy="2" r="1.5" fill="#E74C3C"/><path d="M8 3.5V4" stroke="#E0E0E0"/><path d="M4 11H6V13H4V11ZM10 11H12V13H10V11Z" fill="#E0E0E0"/></svg>`,
-            ktx: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M2 6C2 6 5 4 11 4H15V11H2V6Z" fill="#E67E22"/><path d="M7 5H11V7H7V5ZM12 5H14V7H12V5Z" fill="#121212"/><path d="M2 11H15V12H2V11Z" fill="#95A5A6"/><circle cx="4" cy="12.5" r="1" fill="#E0E0E0"/><circle cx="8" cy="12.5" r="1" fill="#E0E0E0"/><circle cx="12" cy="12.5" r="1" fill="#E0E0E0"/></svg>`,
-            hyperloop: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M1 8C1 5.5 3.5 5 8 5C12.5 5 15 5.5 15 8C15 10.5 12.5 11 8 11C3.5 11 1 10.5 1 8Z" fill="#E74C3C"/><path d="M10 6.5H13V9.5H10V6.5Z" fill="#121212"/><path d="M2 4H14V5H2V4ZM2 11H14V12H2V11Z" fill="#3498DB" opacity="0.6"/></svg>`,
-            walk: `<svg width="32" height="32" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="3" r="1.5" fill="#F1C40F"/><path d="M7 5H9V9H7V5Z" fill="#E0E0E0"/><path d="M7 9L5 14H6.5L8 10L9.5 14H11L9 9H7Z" fill="#E0E0E0"/></svg>`
+            bus: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 2H13V12H3V2Z" fill="#F39C12"/><path d="M4 4H7V7H4V4ZM9 4H12V7H9V4Z" fill="#121212"/><path d="M4 12H6V14H4V12ZM10 12H12V14H10V12Z" fill="#E0E0E0"/><path d="M6 9H10V10H6V9Z" fill="#121212"/></svg>`,
+            drt: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M2 4H14V11H2V4Z" fill="#2ECC71"/><path d="M3 5H6V8H3V5ZM8 5H11V8H8V5Z" fill="#121212"/><path d="M3 11H5V13H3V11ZM11 11H13V13H11V11Z" fill="#E0E0E0"/><circle cx="13" cy="3" r="2" fill="#E74C3C"/></svg>`,
+            uam: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M5 7H11V10H5V7Z" fill="#3498DB"/><path d="M2 5H6V6H2V5ZM10 5H14V6H10V5Z" fill="#E0E0E0"/><path d="M3 4H5V5H3V4ZM11 4H13V5H11V4Z" fill="#F1C40F"/><path d="M7 10H9V12H7V10Z" fill="#E0E0E0"/></svg>`,
+            subway: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 3H13V12H3V3Z" fill="#9B59B6"/><path d="M4 5H12V8H4V5Z" fill="#121212"/><circle cx="5.5" cy="10.5" r="0.8" fill="#F1C40F"/><circle cx="10.5" cy="10.5" r="0.8" fill="#F1C40F"/><path d="M4 12L2 14M12 12L14 14" stroke="#E0E0E0" stroke-width="1.5"/></svg>`,
+            shuttle: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 4H13V11H3V4Z" fill="#1ABC9C"/><path d="M4 5H7V7H4V5ZM9 5H12V7H9V5Z" fill="#121212"/><circle cx="8" cy="2" r="1.5" fill="#E74C3C"/><path d="M8 3.5V4" stroke="#E0E0E0"/><path d="M4 11H6V13H4V11ZM10 11H12V13H10V11Z" fill="#E0E0E0"/></svg>`,
+            ktx: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M2 6C2 6 5 4 11 4H15V11H2V6Z" fill="#E67E22"/><path d="M7 5H11V7H7V5ZM12 5H14V7H12V5Z" fill="#121212"/><path d="M2 11H15V12H2V11Z" fill="#95A5A6"/><circle cx="4" cy="12.5" r="1" fill="#E0E0E0"/><circle cx="8" cy="12.5" r="1" fill="#E0E0E0"/><circle cx="12" cy="12.5" r="1" fill="#E0E0E0"/></svg>`,
+            hyperloop: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M1 8C1 5.5 3.5 5 8 5C12.5 5 15 5.5 15 8C15 10.5 12.5 11 8 11C3.5 11 1 10.5 1 8Z" fill="#E74C3C"/><path d="M10 6.5H13V9.5H10V6.5Z" fill="#121212"/><path d="M2 4H14V5H2V4ZM2 11H14V12H2V11Z" fill="#3498DB" opacity="0.6"/></svg>`,
+            walk: `<svg width="24" height="24" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="3" r="1.5" fill="#F1C40F"/><path d="M7 5H9V9H7V5Z" fill="#E0E0E0"/><path d="M7 9L5 14H6.5L8 10L9.5 14H11L9 9H7Z" fill="#E0E0E0"/></svg>`
         };
 
         const encyclopediaData = [
-            {
-                id: "drt",
-                icon: pixelIcons.drt,
-                name: "DRT (수요응답형 버스)",
-                summary: "집 앞까지 찾아오는 마을 대중교통",
-                desc: "• <strong>시간:</strong> 25분 / <strong>비용:</strong> 2,000원<br>• <span class='text-bonus'>보너스: 교통 소외지역 맞춤형 서비스 (-2,000원 할인)</span>"
-            },
-            {
-                id: "walk",
-                icon: pixelIcons.walk,
-                name: "마을버스 및 도보 이동",
-                summary: "일반 대중교통 및 보행 연계",
-                desc: "• <strong>시간:</strong> 35분 / <strong>비용:</strong> 1,200원<br>• <span class='text-bonus'>보너스: 친환경 보행 및 저렴한 비용 (-500원 할인)</span>"
-            },
-            {
-                id: "bus",
-                icon: pixelIcons.bus,
-                name: "거제-부산 시외버스",
-                summary: "거가대교 경유 사상터미널 직행",
-                desc: "• <strong>시간:</strong> 80분 / <strong>비용:</strong> 8,500원<br>• <span class='text-bonus'>보너스: 광역 대중교통 이용 탄소 저감 (-1,000원 할인)</span>"
-            },
-            {
-                id: "uam",
-                icon: pixelIcons.uam,
-                name: "UAM (도심항공교통) 시범노선",
-                summary: "하늘길을 통한 초고속 거점 이동",
-                desc: "• <strong>시간:</strong> 25분 / <strong>비용:</strong> 35,000원<br>• <span class='text-penalty'>패널티: 높은 인프라 이용료 및 소음 부대비용 (+5,000원 추가)</span>"
-            },
-            {
-                id: "subway",
-                icon: pixelIcons.subway,
-                name: "부산 도시철도 (지하철 2호선)",
-                summary: "사상역 ➔ 부산역 연계 이동",
-                desc: "• <strong>시간:</strong> 30분 / <strong>비용:</strong> 1,500원<br>• <span class='text-bonus'>보너스: 배리어 프리(무장애 승강시설) 우수 (-500원 할인)</span>"
-            },
-            {
-                id: "shuttle",
-                icon: pixelIcons.shuttle,
-                name: "자율주행 셔틀버스",
-                summary: "스마트시티 연계 도심 이동",
-                desc: "• <strong>시간:</strong> 40분 / <strong>비용:</strong> 3,000원<br>• <span class='text-penalty'>패널티: 위치 데이터 보안 리스크 관리비 (+2,000원 추가)</span>"
-            },
-            {
-                id: "ktx",
-                icon: pixelIcons.ktx,
-                name: "KTX (고속철도)",
-                summary: "부산역 ➔ 서울역 초고속 간선 이동",
-                desc: "• <strong>시간:</strong> 135분 / <strong>비용:</strong> 59,800원<br>• <span class='text-bonus'>보너스: 정시성 우수 및 교통약자 편의시설 완비 (-5,000원 할인)</span>"
-            },
-            {
-                id: "hyperloop",
-                icon: pixelIcons.hyperloop,
-                name: "하이퍼루프 (초고속 진공튜브 열차)",
-                summary: "부산역 ➔ 서울역 아음속 미래 교통",
-                desc: "• <strong>시간:</strong> 20분 / <strong>비용:</strong> 80,000원<br>• <span class='text-penalty'>패널티: 막대한 건설 및 이용 비용 (+15,000원 추가)</span>"
-            },
-            {
-                id: "bus_express",
-                icon: pixelIcons.bus,
-                name: "고속버스 (부산 ➔ 서울)",
-                summary: "경부고속도로 직행 버스",
-                desc: "• <strong>시간:</strong> 250분 / <strong>비용:</strong> 36,000원<br>• <span class='text-penalty'>패널티: 상습 정체구간 지연 리스크 (+3,000원 가상 지연비)</span>"
-            }
+            { id: "drt", icon: pixelIcons.drt, name: "DRT (수요응답형 버스)", summary: "집 앞까지 찾아오는 마을 대중교통", desc: "• <strong>시간:</strong> 25분 / <strong>비용:</strong> 2,000원<br>• <span class='text-bonus'>보너스: 교통 소외지역 맞춤형 서비스 (-2,000원 할인)</span>" },
+            { id: "walk", icon: pixelIcons.walk, name: "마을버스 및 도보 이동", summary: "일반 대중교통 및 보행 연계", desc: "• <strong>시간:</strong> 35분 / <strong>비용:</strong> 1,200원<br>• <span class='text-bonus'>보너스: 친환경 보행 및 저렴한 비용 (-500원 할인)</span>" },
+            { id: "bus", icon: pixelIcons.bus, name: "거제-부산 시외버스", summary: "거가대교 경유 사상터미널 직행", desc: "• <strong>시간:</strong> 80분 / <strong>비용:</strong> 8,500원<br>• <span class='text-bonus'>보너스: 광역 대중교통 이용 탄소 저감 (-1,000원 할인)</span>" },
+            { id: "uam", icon: pixelIcons.uam, name: "UAM (도심항공교통) 시범노선", summary: "하늘길을 통한 초고속 거점 이동", desc: "• <strong>시간:</strong> 25분 / <strong>비용:</strong> 35,000원<br>• <span class='text-penalty'>패널티: 높은 인프라 이용료 및 소음 부대비용 (+5,000원 추가)</span>" },
+            { id: "subway", icon: pixelIcons.subway, name: "부산 도시철도 (지하철 2호선)", summary: "사상역 ➔ 부산역 연계 이동", desc: "• <strong>시간:</strong> 30분 / <strong>비용:</strong> 1,500원<br>• <span class='text-bonus'>보너스: 배리어 프리(무장애 승강시설) 우수 (-500원 할인)</span>" },
+            { id: "shuttle", icon: pixelIcons.shuttle, name: "자율주행 셔틀버스", summary: "스마트시티 연계 도심 이동", desc: "• <strong>시간:</strong> 40분 / <strong>비용:</strong> 3,000원<br>• <span class='text-penalty'>패널티: 위치 데이터 보안 리스크 관리비 (+2,000원 추가)</span>" },
+            { id: "ktx", icon: pixelIcons.ktx, name: "KTX (고속철도)", summary: "부산역 ➔ 서울역 초고속 간선 이동", desc: "• <strong>시간:</strong> 135분 / <strong>비용:</strong> 59,800원<br>• <span class='text-bonus'>보너스: 정시성 우수 및 교통약자 편의시설 완비 (-5,000원 할인)</span>" },
+            { id: "hyperloop", icon: pixelIcons.hyperloop, name: "하이퍼루프 (초고속 진공튜브 열차)", summary: "부산역 ➔ 서울역 아음속 미래 교통", desc: "• <strong>시간:</strong> 20분 / <strong>비용:</strong> 80,000원<br>• <span class='text-penalty'>패널티: 막대한 건설 및 이용 비용 (+15,000원 추가)</span>" },
+            { id: "bus_express", icon: pixelIcons.bus, name: "고속버스 (부산 ➔ 서울)", summary: "경부고속도로 직행 버스", desc: "• <strong>시간:</strong> 250분 / <strong>비용:</strong> 36,000원<br>• <span class='text-penalty'>패널티: 상습 정체구간 지연 리스크 (+3,000원 가상 지연비)</span>" }
         ];
 
         const stages = [
@@ -486,22 +506,8 @@
                 subtitle: "[1단계] 거제 내 출발지에서 고현버스터미널로 이동",
                 briefing: "아침 집에서 출발해 거제 중심 버스 터미널인 '고현터미널'까지 이동해야 합니다. 시간과 비용, 그리고 교통약자/소외지역 배려 요소를 고려해 수단을 선택하세요.",
                 choices: [
-                    { 
-                        icon: pixelIcons.drt,
-                        name: "DRT (수요응답형 버스)", 
-                        timeNum: 25, costNum: 2000,
-                        time: "25분 소요", cost: "2,000원", 
-                        penaltyHtml: "<span class='text-bonus'>보너스 -2,000원 (교통 소외지역 맞춤형 서비스 혜택)</span>",
-                        reason: "부름에 따라 유연하게 운행하여 교통 소외지역의 접근성을 높여줍니다."
-                    },
-                    { 
-                        icon: pixelIcons.walk,
-                        name: "마을버스 및 도보 이동", 
-                        timeNum: 35, costNum: 1200,
-                        time: "35분 소요", cost: "1,200원", 
-                        penaltyHtml: "<span class='text-bonus'>보너스 -500원 (친환경 보행 및 저렴한 교통비)</span>",
-                        reason: "가장 경제적이고 탄소 배출이 적으나 시간이 다소 소요됩니다."
-                    }
+                    { icon: pixelIcons.drt, name: "DRT (수요응답형 버스)", timeNum: 25, costNum: 2000, time: "25분 소요", cost: "2,000원", penaltyHtml: "<span class='text-bonus'>보너스 -2,000원 (교통 소외지역 맞춤형 서비스 혜택)</span>", reason: "부름에 따라 유연하게 운행하여 교통 소외지역의 접근성을 높여줍니다." },
+                    { icon: pixelIcons.walk, name: "마을버스 및 도보 이동", timeNum: 35, costNum: 1200, time: "35분 소요", cost: "1,200원", penaltyHtml: "<span class='text-bonus'>보너스 -500원 (친환경 보행 및 저렴한 교통비)</span>", reason: "가장 경제적이고 탄소 배출이 적으나 시간이 다소 소요됩니다." }
                 ]
             },
             {
@@ -509,22 +515,8 @@
                 subtitle: "[2단계] 거제를 벗어나 부산 서부권으로 이동",
                 briefing: "고현터미널에 도착했습니다. 이제 거가대교를 건너 부산 서부(사상터미널)로 이동해야 합니다. 육상 교통망과 미래 모빌리티의 특성을 비교해보세요.",
                 choices: [
-                    { 
-                        icon: pixelIcons.bus,
-                        name: "거제-부산 시외버스 (거가대교 경유)", 
-                        timeNum: 80, costNum: 8500,
-                        time: "80분 소요", cost: "8,500원", 
-                        penaltyHtml: "<span class='text-bonus'>보너스 -1,000원 (광역 대중교통 활성화 탄소 저감)</span>",
-                        reason: "대중교통 이용으로 탄소 저감에 기여하나 주말 거가대교 정체 변수가 있습니다."
-                    },
-                    { 
-                        icon: pixelIcons.uam,
-                        name: "UAM (도심항공교통) 시범노선", 
-                        timeNum: 25, costNum: 35000,
-                        time: "25분 소요", cost: "35,000원", 
-                        penaltyHtml: "<span class='text-penalty'>패널티 +5,000원 (고비용 인프라 이용료 및 소음 부대비용)</span>",
-                        reason: "바다와 해안 상공을 가로질러 압도적으로 빠르지만 요금과 인프라 유지 비용이 높습니다."
-                    }
+                    { icon: pixelIcons.bus, name: "거제-부산 시외버스 (거가대교 경유)", timeNum: 80, costNum: 8500, time: "80분 소요", cost: "8,500원", penaltyHtml: "<span class='text-bonus'>보너스 -1,000원 (광역 대중교통 활성화 탄소 저감)</span>", reason: "대중교통 이용으로 탄소 저감에 기여하나 주말 거가대교 정체 변수가 있습니다." },
+                    { icon: pixelIcons.uam, name: "UAM (도심항공교통) 시범노선", timeNum: 25, costNum: 35000, time: "25분 소요", cost: "35,000원", penaltyHtml: "<span class='text-penalty'>패널티 +5,000원 (고비용 인프라 이용료 및 소음 부대비용)</span>", reason: "바다와 해안 상공을 가로질러 압도적으로 빠르지만 요금과 인프라 유지 비용이 높습니다." }
                 ]
             },
             {
@@ -532,22 +524,8 @@
                 subtitle: "[3단계] 부산 도심 내부 환승 이동",
                 briefing: "사상터미널에 도착했습니다. KTX나 하이퍼루프를 타기 위해 부산역으로 이동해야 합니다. 도심 대중교통망을 점검하세요.",
                 choices: [
-                    { 
-                        icon: pixelIcons.subway,
-                        name: "부산 도시철도 (지하철 2호선 ➔ 1호선 환승)", 
-                        timeNum: 30, costNum: 1500,
-                        time: "30분 소요", cost: "1,500원", 
-                        penaltyHtml: "<span class='text-bonus'>보너스 -500원 (배리어 프리 엘리베이터 및 무장애 승강시설)</span>",
-                        reason: "정시성이 완벽하고 환승 체계가 편리하며 교통약자 친화적입니다."
-                    },
-                    { 
-                        icon: pixelIcons.shuttle,
-                        name: "자율주행 셔틀버스 (도심 전용차로)", 
-                        timeNum: 40, costNum: 3000,
-                        time: "40분 소요", cost: "3,000원", 
-                        penaltyHtml: "<span class='text-penalty'>패널티 +2,000원 (위치 데이터 보안 리스크 관리비)</span>",
-                        reason: "실시간 도로 상황 공유 및 자율주행 기술 연계로 편리하지만 보안 관리 비용이 부과됩니다."
-                    }
+                    { icon: pixelIcons.subway, name: "부산 도시철도 (지하철 2호선 ➔ 1호선 환승)", timeNum: 30, costNum: 1500, time: "30분 소요", cost: "1,500원", penaltyHtml: "<span class='text-bonus'>보너스 -500원 (배리어 프리 엘리베이터 및 무장애 승강시설)</span>", reason: "정시성이 완벽하고 환승 체계가 편리하며 교통약자 친화적입니다." },
+                    { icon: pixelIcons.shuttle, name: "자율주행 셔틀버스 (도심 전용차로)", timeNum: 40, costNum: 3000, time: "40분 소요", cost: "3,000원", penaltyHtml: "<span class='text-penalty'>패널티 +2,000원 (위치 데이터 보안 리스크 관리비)</span>", reason: "실시간 도로 상황 공유 및 자율주행 기술 연계로 편리하지만 보안 관리 비용이 부과됩니다." }
                 ]
             },
             {
@@ -555,51 +533,51 @@
                 subtitle: "[4단계] 최종 목적지 서울로 향하는 간선 이동",
                 briefing: "드디어 부산역에 도착했습니다! 서울역까지 가는 마지막 핵심 구간입니다. 일반 고속철도부터 미래형 초고속 교통수단까지 신중하게 선택하세요.",
                 choices: [
-                    { 
-                        icon: pixelIcons.ktx,
-                        name: "KTX (고속철도)", 
-                        timeNum: 135, costNum: 59800,
-                        time: "135분 소요", cost: "59,800원", 
-                        penaltyHtml: "<span class='text-bonus'>보너스 -5,000원 (정시성 우수 및 장애인 승하차 전용 구역 완비)</span>",
-                        reason: "가장 안정적이고 검증된 고속 철도망입니다."
-                    },
-                    { 
-                        icon: pixelIcons.hyperloop,
-                        name: "하이퍼루프 (초고속 진공튜브 열차)", 
-                        timeNum: 20, costNum: 80000,
-                        time: "20분 소요", cost: "80,000원", 
-                        penaltyHtml: "<span class='text-penalty'>패널티 +15,000원 (막대한 건설 비용 및 고액 이용 요금)</span>",
-                        reason: "서울과 부산을 20분 만에 주파하는 미래 최첨단 수단이나 극도로 비싼 비용이 듭니다."
-                    },
-                    { 
-                        icon: pixelIcons.bus,
-                        name: "고속버스 (부산 ➔ 서울 경부선)", 
-                        timeNum: 250, costNum: 36000,
-                        time: "250분 소요", cost: "36,000원", 
-                        penaltyHtml: "<span class='text-penalty'>패널티 +3,000원 (고속도로 상습 지연 및 대기 시간 비용)</span>",
-                        reason: "비용이 상대적으로 저렴하지만 장거리 도로 정체 시 시간 손실이 큽니다."
-                    }
+                    { icon: pixelIcons.ktx, name: "KTX (고속철도)", timeNum: 135, costNum: 59800, time: "135분 소요", cost: "59,800원", penaltyHtml: "<span class='text-bonus'>보너스 -5,000원 (정시성 우수 및 장애인 승하차 전용 구역 완비)</span>", reason: "가장 안정적이고 검증된 고속 철도망입니다." },
+                    { icon: pixelIcons.hyperloop, name: "하이퍼루프 (초고속 진공튜브 열차)", timeNum: 20, costNum: 80000, time: "20분 소요", cost: "80,000원", penaltyHtml: "<span class='text-penalty'>패널티 +15,000원 (막대한 건설 비용 및 고액 이용 요금)</span>", reason: "서울과 부산을 20분 만에 주파하는 미래 최첨단 수단이나 극도로 비싼 비용이 듭니다." },
+                    { icon: pixelIcons.bus, name: "고속버스 (부산 ➔ 서울 경부선)", timeNum: 250, costNum: 36000, time: "250분 소요", cost: "36,000원", penaltyHtml: "<span class='text-penalty'>패널티 +3,000원 (고속도로 상습 지연 및 대기 시간 비용)</span>", reason: "비용이 상대적으로 저렴하지만 장거리 도로 정체 시 시간 손실이 큽니다." }
                 ]
             }
         ];
 
-        let currentStep = -3; // -3: 이름/반 입력, -2: 탐사 미션 경로 안내, -1: 백과사전, 0~3: 미션 ZONE, 4: 영수증 페이지, 5: 리더보드 페이지
+        let currentStep = -3;
         let selectedChoice = null;
         let totalScoreSummary = [];
         let studentInfo = { className: "A반", studentName: "" };
         let currentScoreData = null;
 
+        function getVisitorCount() {
+            let count = localStorage.getItem("mobility_visitor_count");
+            return count ? parseInt(count) : 0;
+        }
+
+        function addVisitorCount() {
+            let count = getVisitorCount();
+            localStorage.setItem("mobility_visitor_count", count + 1);
+        }
+
         function getclassRecords() {
             let data = localStorage.getItem("mobility_class_records");
-            if (!data) {
-                return { "A반": [], "B반": [], "C반": [], "D반": [] };
-            }
+            if (!data) return { "A반": [], "B반": [], "C반": [], "D반": [] };
             return JSON.parse(data);
         }
 
         function saveclassRecords(records) {
             localStorage.setItem("mobility_class_records", JSON.stringify(records));
         }
+
+        // 비밀 단축키 감지 기능 (Ctrl + Shift + Backspace 누르면 초기화 팝업)
+        window.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'Backspace') {
+                if (confirm("🔒 [교사 전용 비밀 기능] 모든 접속 기록과 리더보드를 초기화하시겠습니까?")) {
+                    localStorage.removeItem("mobility_visitor_count");
+                    localStorage.removeItem("mobility_class_records");
+                    localStorage.removeItem("mobility_checked_in");
+                    alert("초기화되었습니다!");
+                    location.reload();
+                }
+            }
+        });
 
         function renderCurrentScreen() {
             const area = document.getElementById("game-content-area");
@@ -608,14 +586,26 @@
 
             if (currentStep === -3) {
                 document.getElementById("zone-title").innerText = "🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대";
-                document.getElementById("zone-subtitle").innerText = "[시작 화면] 소속 반 및 이름 입력";
-                statusText.innerText = "1단계: 등록";
+                document.getElementById("zone-subtitle").innerText = "[시작 화면] 출석 체크 및 대원 정보 입력";
+                statusText.innerText = "1단계: 입장";
                 mainActionBtn.innerText = "탐사 미션 경로 확인하기";
                 mainActionBtn.disabled = false;
 
+                let visitorCount = getVisitorCount();
+                let isCheckedIn = localStorage.getItem("mobility_checked_in") === "true";
+
                 area.innerHTML = `
-                    <div style="background-color: #282421; border: 1px solid #d48331; border-radius: 8px; padding: 20px;">
-                        <div class="briefing-title" style="margin-bottom: 16px;">📝 탐사대원 정보를 입력해 주세요</div>
+                    <div style="background-color: #282421; border: 1px solid #f39c12; border-radius: 8px; padding: 14px; margin-bottom: 12px; text-align: center;">
+                        <span style="font-size: 0.9rem; color: #f39c12; font-weight: bold;">
+                            👥 현재 웹페이지 접속(입장) 인원: <span style="font-size: 1.15rem; color: #fff;" id="visitor-count-display">${visitorCount}명</span>
+                        </span>
+                        <button class="check-in-btn ${isCheckedIn ? 'checked' : ''}" id="check-in-btn" onclick="doCheckIn()">
+                            ${isCheckedIn ? '✅ 출석체크 완료됨!' : '✋ [클릭] 저 입장했어요! (출석 체크)'}
+                        </button>
+                    </div>
+
+                    <div style="background-color: #282421; border: 1px solid #d48331; border-radius: 8px; padding: 16px;">
+                        <div class="briefing-title" style="margin-bottom: 12px;">📝 탐사대원 정보를 입력해 주세요</div>
                         <div class="input-group">
                             <label>🏫 나의 소속 반</label>
                             <select id="input-class">
@@ -643,8 +633,8 @@
                     <div class="route-banner">
                         <div class="route-title">📍 탐사 미션 경로: 집 ➔ 고현 ➔ 사상 ➔ 부산역 ➔ 서울역</div>
                         <div class="route-desc">
-                            거제 집에서 출발해 서울역까지 안전하고 효율적인 경로를 구성하세요!<br>
-                            <strong>🏆 우승 조건:</strong> 총 이동 시간과 총 비용 합산 점수가 <strong>가장 낮은</strong> 학생이 각 반별 1위로 우승합니다!
+                            거제 집에서 출발해 서울역까지 안전하고 효율적인 경로를 구성하세요!<br><br>
+                            <strong>🏆 우승 조건:</strong> <strong>총 이동 시간</strong>과 <strong>총 비용</strong>(보너스/패널티 반영 합산 점수)이 <strong>가장 낮은</strong> 학생이 각 반별 1위로 우승합니다!
                         </div>
                     </div>
 
@@ -702,20 +692,20 @@
 
                     <div class="reason-box" id="reason-box">
                         <div class="reason-header">
-                            <div id="selected-icon-wrap" style="width: 40px; height: 40px; background:#121212; border:1px solid #3498db; border-radius:6px; display:flex; align-items:center; justify-content:center;"></div>
+                            <div id="selected-icon-wrap" style="width: 36px; height: 36px; background:#121212; border:1px solid #3498db; border-radius:6px; display:flex; align-items:center; justify-content:center;"></div>
                             <div>
-                                <div id="selected-title" style="color: #3498db; font-weight: bold; font-size: 1.05rem;">교통수단 명칭</div>
-                                <div style="font-size: 0.8rem; color: #aaa;">선택 수단 분석 리포트</div>
+                                <div id="selected-title" style="color: #3498db; font-weight: bold; font-size: 0.95rem;">교통수단 명칭</div>
+                                <div style="font-size: 0.75rem; color: #aaa;">선택 수단 분석 리포트</div>
                             </div>
                         </div>
-                        <div id="reason-desc" style="line-height: 1.6; color: #ddd;"></div>
+                        <div id="reason-desc" style="line-height: 1.5; color: #ddd; font-size: 0.85rem;"></div>
                     </div>
 
                     <div class="choices-container" id="choices-container"></div>
                 `;
 
                 const container = document.getElementById("choices-container");
-                stage.choices.forEach((choice, index) => {
+                stage.choices.forEach(choice => {
                     const btn = document.createElement("div");
                     btn.className = "choice-btn";
                     btn.innerHTML = `
@@ -724,7 +714,7 @@
                             <strong>${choice.name}</strong>
                             <div class="choice-info">⏱️ ${choice.time} | 💰 ${choice.cost}</div>
                         </div>
-                        <div style="font-size: 0.85rem; color: #f39c12; flex-shrink: 0;">선택하기</div>
+                        <div style="font-size: 0.8rem; color: #f39c12; flex-shrink: 0;">선택하기</div>
                     `;
                     btn.onclick = () => selectChoice(choice, btn);
                     container.appendChild(btn);
@@ -749,27 +739,41 @@
                 };
 
                 area.innerHTML = `
-                    <div class="briefing-box">
-                        <div class="briefing-title">📋 탐사 경로 요약 및 영수증 내역</div>
-                        <p style="margin-bottom: 14px; font-size: 0.9rem; color: #bbb;">각 구간별 소요 시간, 비용 및 보너스/패널티 조정 내역입니다.</p>
-                        <div class="receipt">
-                            ${totalScoreSummary.map((item, idx) => `
-                                <div class="receipt-item">
-                                    <span>[ZONE ${idx+1}]${item.name}</span>
-                                    <span>${item.time} /${item.cost}</span>
-                                </div>
-                                <div style="font-size: 0.75rem; margin-bottom: 6px;">└ 조정내역: ${item.penaltyHtml}</div>
-                            `).join('')}
-                            <hr style="border: 0; border-top: 1px dashed #f39c12; margin: 10px 0;">
-                            <div class="receipt-item" style="font-weight: bold; color: #f39c12; font-size: 0.95rem;">
-                                <span>⏱️ 총 시간: ${totalTime}분 | 💰 총 비용: ${totalCost.toLocaleString()}원</span>
-                                <span>종합 스코어: ${finalScore}점</span>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div class="briefing-box" style="margin-bottom:0;">
+                            <div class="briefing-title">📋 탐사 경로 요약 및 영수증 내역</div>
+                            <p style="margin-bottom: 10px; font-size: 0.8rem; color: #bbb;">각 구간별 소요 시간, 비용 및 조정 내역입니다.</p>
+                            <div style="display:flex; flex-direction:column; gap:8px;">
+                                ${totalScoreSummary.map((item, idx) => `
+                                    <div class="receipt-card">
+                                        <div class="receipt-card-header">
+                                            <div class="card-zone-tag">[ZONE ${idx+1}]</div>
+                                            <div class="card-time-cost-wrap">⏱️ ${item.time} / 💰 ${item.cost}</div>
+                                        </div>
+                                        <div class="card-transport-name">${item.name}</div>
+                                        <div class="card-detailed-desc">└ 조정내역: ${item.penaltyHtml}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="receipt-summary-box">
+                            <div class="summary-item">
+                                <span class="summary-label">⏱️ 총 시간</span>
+                                <span class="summary-value">${totalTime}분</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">💰 총 비용</span>
+                                <span class="summary-value">${totalCost.toLocaleString()}원</span>
+                            </div>
+                            <div class="summary-item summary-score">
+                                <span class="summary-label">🏆 종합 스코어</span>
+                                <span class="summary-value" style="color: #f1c40f;">${finalScore}점</span>
                             </div>
                         </div>
                     </div>
                 `;
 
-            } else {
+            } else if (currentStep === 5) {
                 document.getElementById("zone-title").innerText = `🏆 [${studentInfo.className}] 실시간 반별 리더보드`;
                 document.getElementById("zone-subtitle").innerText = `우리 ${studentInfo.className} 최고 탐사대원 1~3위 및 나의 순위 확인`;
                 statusText.innerText = "순위 측정 (2/2)";
@@ -777,9 +781,12 @@
                 mainActionBtn.disabled = false;
 
                 let records = getclassRecords();
-                records[studentInfo.className].push(currentScoreData);
-                records[studentInfo.className].sort((a, b) => a.score - b.score);
-                saveclassRecords(records);
+                let exists = records[studentInfo.className].some(r => r.name === currentScoreData.name && r.score === currentScoreData.score && r.time === currentScoreData.time);
+                if (!exists) {
+                    records[studentInfo.className].push(currentScoreData);
+                    records[studentInfo.className].sort((a, b) => a.score - b.score);
+                    saveclassRecords(records);
+                }
 
                 let classList = records[studentInfo.className];
                 let top3 = classList.slice(0, 3);
@@ -794,18 +801,29 @@
                             ${top3.map((rec, idx) => `
                                 <div class="podium-card">
                                     <div><strong>${idx + 1}위:</strong> ${rec.name}</div>
-                                    <div style="color: #f39c12;">종합 점수: ${rec.score}점 (시간 ${rec.time}분 / ${rec.cost.toLocaleString()}원)</div>
+                                    <div style="color: #f39c12;">점수: ${rec.score}점 (${rec.time}분 / ${rec.cost.toLocaleString()}원)</div>
                                 </div>
                             `).join('')}
-                            ${top3.length === 0 ? '<p style="color:#aaa; font-size:0.85rem;">기록이 없습니다.</p>' : ''}
+                            ${top3.length === 0 ? '<p style="color:#aaa; font-size:0.8rem;">기록이 없습니다.</p>' : ''}
                         </div>
 
                         <div class="my-rank-banner">
-                            🎯 ${studentInfo.studentName}님의 현재 순위: <span style="color: #fff; font-size: 1.2rem;">${myRank}등</span> (종합 스코어 ${currentScoreData.score}점)
+                            🎯 ${studentInfo.studentName}님의 현재 순위: <span style="color: #fff; font-size: 1.1rem;">${myRank}등</span> (종합 스코어 ${currentScoreData.score}점)
                         </div>
                     </div>
                 `;
             }
+        }
+
+        function doCheckIn() {
+            if (localStorage.getItem("mobility_checked_in") === "true") return;
+            addVisitorCount();
+            localStorage.setItem("mobility_checked_in", "true");
+            
+            document.getElementById("visitor-count-display").innerText = getVisitorCount() + "명";
+            const btn = document.getElementById("check-in-btn");
+            btn.className = "check-in-btn checked";
+            btn.innerText = "✅ 출석체크 완료됨!";
         }
 
         function openModal(item) {
@@ -859,6 +877,7 @@
                 currentStep = -3;
                 totalScoreSummary = [];
                 currentScoreData = null;
+                localStorage.removeItem("mobility_checked_in");
             }
             renderCurrentScreen();
         }
