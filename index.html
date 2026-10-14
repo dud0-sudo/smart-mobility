@@ -47,7 +47,7 @@
 
         .game-header h1 {
             color: #f39c12;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             margin-bottom: 4px;
             letter-spacing: -0.5px;
             line-height: 1.4;
@@ -404,31 +404,16 @@
         .text-penalty { color: #e74c3c; font-weight: bold; }
         .text-bonus { color: #3498db; font-weight: bold; }
         
-        .podium-top3 {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-        .podium-card {
-            background-color: #222c32;
-            border: 1px solid #3498db;
-            border-radius: 6px;
-            padding: 10px 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
         .my-rank-banner {
             background-color: #2b241d;
             border: 2px solid #f39c12;
             border-radius: 8px;
             padding: 14px;
             text-align: center;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: #f39c12;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -529,20 +514,9 @@
         let studentInfo = { className: "A반", studentName: "" };
         let currentScoreData = null;
 
-        function getclassRecords() {
-            let data = localStorage.getItem("mobility_class_records");
-            if (!data) return { "A반": [], "B반": [], "C반": [], "D반": [] };
-            return JSON.parse(data);
-        }
-
-        function saveclassRecords(records) {
-            localStorage.setItem("mobility_class_records", JSON.stringify(records));
-        }
-
         window.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.shiftKey && e.key === 'Backspace') {
                 if (confirm("🔒 [교사 전용 비밀 기능] 저장된 기록을 초기화하시겠습니까?")) {
-                    localStorage.removeItem("mobility_class_records");
                     alert("초기화되었습니다!");
                     location.reload();
                 }
@@ -581,7 +555,7 @@
                 `;
 
             } else if (currentStep === -2) {
-                document.getElementById("zone-title").innerText = "🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대";
+                document.getElementById("zone-title").innerHTML = "🚀 [스마트 시티 프로젝트]<br>4차 산업혁명 모빌리티 탐사대";
                 document.getElementById("zone-subtitle").innerText = `[${studentInfo.className} ${studentInfo.studentName}] 탐사 미션 경로 안내`;
                 statusText.innerText = "2단계: 경로 안내";
                 mainActionBtn.innerText = "교통수단 백과사전 보기";
@@ -592,7 +566,7 @@
                         <div class="route-title">📍 탐사 미션 경로: 집 ➔ 고현 ➔ 사상 ➔ 부산역 ➔ 서울역</div>
                         <div class="route-desc">
                             거제 집에서 출발해 서울역까지 안전하고 효율적인 경로를 구성하세요!<br><br>
-                            <strong>🏆 우승 조건:</strong> <strong>총 이동 시간</strong>과 <strong>총 비용</strong>(보너스/패널티 반영 합산 점수)이 <strong>가장 낮은</strong> 학생이 1위로 우승합니다!
+                            <strong>🏆 우승 조건:</strong> <strong>총 이동 시간</strong>과 <strong>총 비용</strong>이 가장 낮은 학생이 1위로 우승합니다!
                         </div>
                     </div>
 
@@ -603,7 +577,7 @@
                 `;
 
             } else if (currentStep === -1) {
-                document.getElementById("zone-title").innerText = "🚀 [스마트 시티 프로젝트] 4차 산업혁명 모빌리티 탐사대";
+                document.getElementById("zone-title").innerHTML = "🚀 [스마트 시티 프로젝트]<br>4차 산업혁명 모빌리티 탐사대";
                 document.getElementById("zone-subtitle").innerText = `[${studentInfo.className} ${studentInfo.studentName}] 교통수단 백과사전 탐색`;
                 statusText.innerText = "3단계: 사전 학습";
                 mainActionBtn.innerText = "탐사 미션 시작하기";
@@ -679,10 +653,10 @@
                 });
 
             } else if (currentStep === 4) {
-                document.getElementById("zone-title").innerText = `🧾 [${studentInfo.className}] 나의 탐사 영수증`;
+                document.getElementById("zone-title").innerHTML = `🧾 [${studentInfo.className}] 나의 탐사 영수증`;
                 document.getElementById("zone-subtitle").innerText = `${studentInfo.studentName}님의 최종 이동 경로 및 비용 합산 리포트`;
-                statusText.innerText = "결과 확인 (1/2)";
-                mainActionBtn.innerText = "나의 점수 결과 확인하기";
+                statusText.innerText = "탐사 미션 완료";
+                mainActionBtn.innerText = "처음부터 다시 시작하기";
                 mainActionBtn.disabled = false;
 
                 let totalTime = totalScoreSummary.reduce((acc, cur) => acc + cur.timeNum, 0);
@@ -724,31 +698,12 @@
                                 <span class="summary-value">${totalCost.toLocaleString()}원</span>
                             </div>
                             <div class="summary-item summary-score">
-                                <span class="summary-label">🏆 종합 스코어</span>
+                                <span class="summary-label">🏆 최종 종합 스코어</span>
                                 <span class="summary-value" style="color: #f1c40f;">${finalScore}점</span>
                             </div>
                         </div>
-                    </div>
-                `;
-
-            } else if (currentStep === 5) {
-                document.getElementById("zone-title").innerText = `🏆 [${studentInfo.className}] 탐사 완료 리포트`;
-                document.getElementById("zone-subtitle").innerText = `${studentInfo.studentName} 대원의 최종 결과`;
-                statusText.innerText = "결과 제출 (2/2)";
-                mainActionBtn.innerText = "처음부터 다시 시작하기";
-                mainActionBtn.disabled = false;
-
-                area.innerHTML = `
-                    <div class="briefing-box" style="text-align: center; padding: 20px 14px;">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">🎉</div>
-                        <div class="briefing-title" style="font-size: 1.15rem; margin-bottom: 8px;">탐사 미션을 성공적으로 마쳤습니다!</div>
-                        <p style="color: #aaa; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px;">
-                            ${studentInfo.studentName} 대원의 최종 종합 스코어는 <strong style="color: #f1c40f;">${currentScoreData.score}점</strong>입니다.<br>
-                            (총 소요시간: ${currentScoreData.time}분 / 총 비용: ${currentScoreData.cost.toLocaleString()}원)
-                        </p>
-
                         <div class="my-rank-banner">
-                            📱 화면을 캡처하거나 선생님께 이 화면을 보여드려 결과를 확인받으세요!
+                            탐사 미션 완료!<br>선생님께 스코어를 공유하세요.
                         </div>
                     </div>
                 `;
@@ -801,8 +756,6 @@
                 }
                 currentStep++;
             } else if (currentStep === 4) {
-                currentStep = 5;
-            } else {
                 currentStep = -3;
                 totalScoreSummary = [];
                 currentScoreData = null;
